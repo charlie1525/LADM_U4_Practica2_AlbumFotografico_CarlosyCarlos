@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "675778412584",
+    "project_id": "ladm-u4-practica2carlosycarlos",
+    "storage_bucket": "ladm-u4-practica2carlosycarlos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675778412584:android:216572efc0b117f4bc351d",
+        "android_client_info": {
+          "package_name": "mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675778412584-2a7ntpri3sm1q43kd13an873v6dim9ph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK0ZPKpgJC0uEBl0amXRIyHXYvKVfcr-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675778412584-2a7ntpri3sm1q43kd13an873v6dim9ph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
