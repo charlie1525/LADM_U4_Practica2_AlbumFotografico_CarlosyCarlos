@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main2"
+    tools:context=".PhotoUpload"
     android:padding="20sp"
     android:orientation="vertical">
-
 
     <EditText
         android:layout_width="match_parent"
@@ -42,9 +41,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnSubir"
         android:text="enviar"/>
+
     <ListView
+        android:id="@+id/lvLista"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lvLista"/>
+        android:layout_height="147dp" />
 
 </LinearLayout>

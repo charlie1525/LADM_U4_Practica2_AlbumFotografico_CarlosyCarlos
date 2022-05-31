@@ -9,4 +9,8 @@
     <string name="sessionIn">Inicial Sesión</string>
     <string name="createUser">Registrarse</string>
     <string name="passBackUp">Recuperar Contraseña</string>
+    <string name="buttonTextSelector">Crear evento</string>
+    <string name="eventTypePöpUp">Tipo de evento</string>
+    <string name="correoPopUp">Correo:</string>
+    <string name="clavePopUp">Clave:</string>
 </resources>
