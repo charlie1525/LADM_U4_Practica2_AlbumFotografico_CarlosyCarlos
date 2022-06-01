@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,12 +20,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class PhotoUpload : AppCompatActivity() {
+
     private lateinit var binding: ActivityPhotoUploadBinding
     private val listaArchivos = ArrayList<String>()
     private lateinit var imagen: Uri
-    private var gallerySuccess = 1
+    private var gallerySuccess = 2
     private var intentKey = ""
-    private var status = ""
+    private var intentStatus = ""
+    var refEventos = FirebaseFirestore.getInstance().collection("eventos")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,25 +35,17 @@ class PhotoUpload : AppCompatActivity() {
         setContentView(binding.root)
         title = "Subida de Fotos"
 
-        intentKey = "asiudhaih"// this.intent.extras!!.getString("id")!!
+        intentKey = "2e2dfb2596"// this.intent.extras!!.getString("id")!!
+
         cargarLista(intentKey)
-
-
-        val query = FirebaseFirestore.getInstance()
-            .collection("eventos")
-        query.whereEqualTo("claveEvent", intentKey).get().addOnSuccessListener {
-            for (doc in it) {
-                status = doc!!.id
-            }
-            alerta(status)
-        }
-
+        getEventStatus(intentKey)
 
         binding.lbKeyEventUP.text = intentKey
-        binding.lbTypeEventUP.text = status
+
 
 
         binding.btnSeleccionar.setOnClickListener {
+            binding.lbTypeEventUP.text = intentStatus
             val galeria = Intent(Intent.ACTION_GET_CONTENT)
             galeria.type = "image/*"
             startActivityForResult(galeria, gallerySuccess)
@@ -58,8 +54,8 @@ class PhotoUpload : AppCompatActivity() {
         binding.btnSubir.setOnClickListener {
             var nombreImagen = ""
             val cal = GregorianCalendar.getInstance()
-            nombreImagen = cal.get(Calendar.YEAR).toString() + "/" +
-                    cal.get(Calendar.MONTH).toString() + "/" +
+            nombreImagen = cal.get(Calendar.YEAR).toString() + "-" +
+                    cal.get(Calendar.MONTH).toString() + "-" +
                     cal.get(Calendar.DAY_OF_MONTH).toString() + ", " +
                     cal.get(Calendar.HOUR_OF_DAY).toString() + ":" +
                     cal.get(Calendar.MINUTE).toString() + ":" +
@@ -87,22 +83,24 @@ class PhotoUpload : AppCompatActivity() {
 
         binding.fabUP.setOnClickListener { finish() }
 
-
     }
 
-
+    private fun getEventStatus(key: String) {
+        refEventos.whereEqualTo("claveEvent", key).get().addOnSuccessListener {
+            for (doc in it!!) {
+                intentStatus = doc.getString("estado")!!
+            }
+        }
+    }
     private fun cargarLista(key: String) {
         val storageRef = FirebaseStorage.getInstance().reference.child("eventos/$key")
         storageRef.listAll().addOnSuccessListener { it ->
             listaArchivos.clear()
             it.items.forEach { listaArchivos.add(it.name) }
             binding.lvLista.adapter =
-                ArrayAdapter(this, android.R.layout.simple_selectable_list_item, listaArchivos)
+                ArrayAdapter(this, android.R.layout.simple_list_item_checked, listaArchivos)
             binding.lvLista.setOnItemClickListener { _, _, i, _ ->
-                cargarImagen(
-                    listaArchivos[i],
-                    key
-                )
+                cargarImagen(listaArchivos[i],key)
             }
         }// fin del on success listener
     }
@@ -128,10 +126,11 @@ class PhotoUpload : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 2) {
-            imagen = data!!.data!!
-            binding.IVimagen.setImageURI(imagen)
+        if(resultCode != RESULT_CANCELED){
+            if (requestCode == gallerySuccess) {
+                imagen = data!!.data!!
+                binding.IVimagen.setImageURI(imagen)
+            }
         }
-
     }
 }

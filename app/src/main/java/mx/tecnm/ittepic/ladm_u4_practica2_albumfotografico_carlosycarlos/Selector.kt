@@ -19,6 +19,8 @@ import kotlin.system.exitProcess
 
 class Selector : AppCompatActivity() {
     private lateinit var binding : ActivitySelectorBinding
+    private val refEventos = FirebaseFirestore.getInstance().collection("eventos")
+    private var status = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +33,13 @@ class Selector : AppCompatActivity() {
         }// fin del boton para la creacion de un evento
 
         binding.btnFotos.setOnClickListener {
-            val uploadPhotos = Intent(this,PhotoUpload::class.java)
-            uploadPhotos.putExtra("id",key)
+            val uploadPhotos = Intent(this, PhotoUpload::class.java)
+            uploadPhotos.putExtra("id", key)
             startActivity(uploadPhotos)
         }
 
     }
+
 
     private fun generateEventId(): String {
         val clave = Hasher().createHash()
