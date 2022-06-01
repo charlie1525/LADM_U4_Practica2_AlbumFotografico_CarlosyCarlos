@@ -17,4 +17,12 @@
     <string name="eventStatusUP">Estatus:</string>
     <string name="enviarBtnUP">enviar</string>
     <string name="sendImageBtnUp">Elegir imagen</string>
+    <string name="eventID">Clave del evento </string>
+    <string name="checkEvent">Verificar </string>
+    <string name="eventDetailTitle">Datos de mi evento </string>
+    <string name="eventDetailName">Nombre del evento </string>
+    <string name="eventDetailType">Tipo de evento </string>
+    <string name="eventDetailDate">Fecha del evento </string>
+    <string name="eventDetailStatus">Status del evento </string>
+    <string name="eventDetailUpdate">Actualizar </string>
 </resources>

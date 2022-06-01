@@ -37,6 +37,11 @@ class Selector : AppCompatActivity() {
             uploadPhotos.putExtra("id", key)
             startActivity(uploadPhotos)
         }
+        binding.checkEvent.setOnClickListener {
+            val editEvent = Intent(this, EditEventActivity::class.java)
+            editEvent.putExtra("event_id", binding.idEvento.text.toString())
+            startActivity(editEvent)
+        }
 
     }
 
