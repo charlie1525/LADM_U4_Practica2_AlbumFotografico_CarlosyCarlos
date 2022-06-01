@@ -6,10 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,7 +23,6 @@ class PhotoUpload : AppCompatActivity() {
     private lateinit var imagen: Uri
     private var gallerySuccess = 2
     private var intentKey = ""
-    private var intentStatus = ""
     var refEventos = FirebaseFirestore.getInstance().collection("eventos")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +31,23 @@ class PhotoUpload : AppCompatActivity() {
         setContentView(binding.root)
         title = "Subida de Fotos"
 
-        intentKey = "2e2dfb2596"// this.intent.extras!!.getString("id")!!
+        intentKey =  this.intent.extras!!.getString("id")!!
 
         cargarLista(intentKey)
-        getEventStatus(intentKey)
+        // obtener el estado del evento
+
+        getEventStatus(object :
+            GetStatus {
+                override fun onCallback(status: String) { binding.lbStatusEventUP.text = status  } }
+            ,intentKey)
+
+        // fin de la obtencio del estado del evento
 
         binding.lbKeyEventUP.text = intentKey
 
 
 
         binding.btnSeleccionar.setOnClickListener {
-            binding.lbTypeEventUP.text = intentStatus
             val galeria = Intent(Intent.ACTION_GET_CONTENT)
             galeria.type = "image/*"
             startActivityForResult(galeria, gallerySuccess)
@@ -83,15 +85,33 @@ class PhotoUpload : AppCompatActivity() {
 
         binding.fabUP.setOnClickListener { finish() }
 
-    }
+    }// fin del on create
 
-    private fun getEventStatus(key: String) {
-        refEventos.whereEqualTo("claveEvent", key).get().addOnSuccessListener {
-            for (doc in it!!) {
-                intentStatus = doc.getString("estado")!!
+    private fun getEventStatus(callBack: GetStatus,keyEvent: String){
+        refEventos.whereEqualTo("claveEvent",keyEvent).get().addOnCompleteListener {
+            if(it.isSuccessful) {
+                var state = ""
+                for (doc in it.result) {
+                    state = doc.getString("estado")!!
+                }// fin del for para ir por los resultados
+                callBack.onCallback(state)
+            }// fin del if si es que la consulta se completo
+            else{
+                alerta("Error... \n${it.exception!!.message}")
             }
-        }
-    }
+        }// fin del onCompleteListener
+    }// fin del método callBack
+
+    private interface GetStatus{ fun onCallback(status: String) }
+
+    //private fun getEventStatus(key: String) {
+       // refEventos.whereEqualTo("claveEvent", key).get().addOnSuccessListener {
+          //  for (doc in it!!) {
+            //    intentStatus = doc.getString("estado")!!
+           // }
+       // }
+   // }
+
     private fun cargarLista(key: String) {
         val storageRef = FirebaseStorage.getInstance().reference.child("eventos/$key")
         storageRef.listAll().addOnSuccessListener { it ->

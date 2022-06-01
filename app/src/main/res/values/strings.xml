@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">LADM_U4_Practica2_AlbumFotografico_CarlosyCarlos</string>
     <string name="appName2">Party Photos</string>
-    <string name="aboutU">Aceraca de Nosotros</string>
+    <string name="aboutU">Acerca de Nosotros</string>
     <string name="exit">Salir</string>
     <string name="sessionOut">Cerrar Sesión</string>
     <string name="email">Email</string>

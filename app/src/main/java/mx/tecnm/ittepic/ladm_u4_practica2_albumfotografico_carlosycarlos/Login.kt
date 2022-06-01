@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class Login : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val autenticacion = FirebaseAuth.getInstance()
 

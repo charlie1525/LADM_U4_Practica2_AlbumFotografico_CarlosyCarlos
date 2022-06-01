@@ -12,15 +12,12 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos.databinding.ActivitySelectorBinding
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
 class Selector : AppCompatActivity() {
     private lateinit var binding : ActivitySelectorBinding
-    private val refEventos = FirebaseFirestore.getInstance().collection("eventos")
-    private var status = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +103,7 @@ class Selector : AppCompatActivity() {
             }
             R.id.mnSessionM -> {
                 FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(this,MainActivity::class.java))
+                startActivity(Intent(this,Login::class.java))
                 finish()
             }
             R.id.mnExitM -> {
