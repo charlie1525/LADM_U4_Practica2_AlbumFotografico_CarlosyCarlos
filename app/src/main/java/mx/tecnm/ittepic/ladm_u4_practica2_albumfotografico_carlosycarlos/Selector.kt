@@ -30,6 +30,12 @@ class Selector : AppCompatActivity() {
             createPopUp(key,user!!)
         }// fin del boton para la creacion de un evento
 
+        binding.btnFotos.setOnClickListener {
+            val uploadPhotos = Intent(this,PhotoUpload::class.java)
+            uploadPhotos.putExtra("id",key)
+            startActivity(uploadPhotos)
+        }
+
     }
 
     private fun generateEventId(): String {

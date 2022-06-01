@@ -13,4 +13,8 @@
     <string name="eventTypePöpUp">Tipo de evento</string>
     <string name="correoPopUp">Correo:</string>
     <string name="clavePopUp">Clave:</string>
+    <string name="claveUploadPhoto">Clave:</string>
+    <string name="eventStatusUP">Estatus:</string>
+    <string name="enviarBtnUP">enviar</string>
+    <string name="sendImageBtnUp">Elegir imagen</string>
 </resources>
