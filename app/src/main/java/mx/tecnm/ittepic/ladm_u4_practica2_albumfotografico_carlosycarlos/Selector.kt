@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,15 +19,20 @@ import kotlin.system.exitProcess
 
 class Selector : AppCompatActivity() {
     private lateinit var binding : ActivitySelectorBinding
+    private val colRef = FirebaseFirestore.getInstance().collection("eventos")
+    private val arrEventos = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val user = FirebaseAuth.getInstance().currentUser!!.email
+        val user = FirebaseAuth.getInstance().currentUser!!.email!!
         val key = generateEventId()
+
+        fillList(user)
+
         binding.btnCreateSl.setOnClickListener {
-            createPopUp(key,user!!)
+            createPopUp(key,user)
         }// fin del boton para la creacion de un evento
 
         binding.btnFotos.setOnClickListener {
@@ -41,6 +47,20 @@ class Selector : AppCompatActivity() {
         }
 
     }
+
+    private fun fillList(user: String){
+        colRef.whereEqualTo("correo",user).get().addOnCompleteListener {
+            if(it.isSuccessful){
+                arrEventos.clear()
+                for(docs  in it.result){
+                    val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
+                    arrEventos.add(evento)
+                }
+                binding.listaEventosPersonal.adapter =
+                    ArrayAdapter(this,android.R.layout.simple_selectable_list_item,arrEventos)
+            } else{ alerta("Error.. \n${it.exception!!.message}") }
+        }// fin del onComplete
+    }// fin de método
 
 
     private fun generateEventId(): String {
@@ -68,19 +88,24 @@ class Selector : AppCompatActivity() {
         with(builder){
             setPositiveButton("Hecho")
             {_,_ ->
-                val data = hashMapOf(
-                "claveEvent" to lbClave.text.toString(),
-                "correo" to lbCorreo.text.toString(),
-                "estado" to "abierto",
-                "tipo" to txtTipo.text.toString()
+                if(txtTipo.text!!.isBlank() || txtTipo.text!!.isEmpty()){
+                    alerta("No se pudo crear el evento\nHace falta el tipo de evento")
+                    return@setPositiveButton
+                } else{
+                    val data = hashMapOf(
+                        "claveEvent" to lbClave.text.toString(),
+                        "correo" to lbCorreo.text.toString(),
+                        "estado" to "abierto",
+                        "tipo" to txtTipo.text.toString()
                     )
-                remoteFS.add(data).addOnSuccessListener {
-                    txtTipo.text!!.clear()
-                    progDialog.dismiss()
-                    mensaje("Evento creado con exito")
-                }.addOnFailureListener{
-                    progDialog.dismiss()
-                    alerta("No se pudo crear el evento \n${it.message}")
+                    remoteFS.add(data).addOnSuccessListener {
+                        txtTipo.text!!.clear()
+                        progDialog.dismiss()
+                        mensaje("Evento creado con exito")
+                    }.addOnFailureListener{
+                        progDialog.dismiss()
+                        alerta("No se pudo crear el evento \n${it.message}")
+                    }
                 }
             }
                 .setNeutralButton("Cancelar"){_,_ -> progDialog.dismiss()}

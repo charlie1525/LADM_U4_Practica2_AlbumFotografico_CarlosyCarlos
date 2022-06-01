@@ -3,68 +3,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Selector"
+    android:layout_margin="20dp"
     android:orientation="vertical"
-    android:layout_margin="20dp">
+    tools:context=".Selector">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Si cuenta con la clave de un evento, por favor ingrese el numero de evento para ingresar a el"
+        android:layout_marginBottom="15dp"
+        android:text="@string/keySelectorRemainder"
         android:textAlignment="center"
-        android:layout_marginBottom="20dp"
-        android:textSize="18dp"
-        />
+        android:textSize="16sp" />
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/eventID"
-        android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/eventID"
         android:padding="5dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/idEvento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="17sp" />
+            android:layout_height="50sp"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/checkEvent"
-        android:layout_marginHorizontal="10dp"
-        android:id="@+id/checkEvent"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonTextSelector"
-        android:layout_gravity="center"
-        android:id="@+id/btnCreateSl"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="pantalla para fotos"
-        android:layout_gravity="center"
-        android:id="@+id/btnFotos"/>
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Mis Eventos"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:layout_marginHorizontal="10dp"
-        android:background="@color/teal_200"
-        android:layout_marginBottom="20dp"
-        android:textSize="20sp" />
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listaEventosPersonal"
 
-        />
+    <Button
+        android:id="@+id/checkEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="@string/checkEvent" />
+
+    <Button
+        android:id="@+id/btnCreateSl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/buttonTextSelector" />
+
+    <Button
+        android:id="@+id/btnFotos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="pantalla para fotos" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10sp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="#03CAB7"
+            android:text="@string/mis_eventosSelector"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/listaEventosPersonal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 </LinearLayout>

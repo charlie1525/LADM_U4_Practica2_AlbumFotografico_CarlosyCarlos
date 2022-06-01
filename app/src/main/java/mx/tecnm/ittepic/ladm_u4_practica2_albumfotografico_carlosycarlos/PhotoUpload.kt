@@ -37,8 +37,7 @@ class PhotoUpload : AppCompatActivity() {
         // obtener el estado del evento
 
         getEventStatus(object :
-            GetStatus {
-                override fun onCallback(status: String) { binding.lbStatusEventUP.text = status  } }
+            GetStatus { override fun onCallback(status: String) { binding.lbStatusEventUP.text = status  } }
             ,intentKey)
 
         // fin de la obtencio del estado del evento

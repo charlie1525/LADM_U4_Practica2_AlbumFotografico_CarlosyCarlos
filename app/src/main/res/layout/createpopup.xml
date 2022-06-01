@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="10sp"
+            android:layout_marginStart="10sp"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -47,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
-            android:textColor="@color/black"
+            android:layout_marginStart="10sp"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -65,6 +66,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tipoPopUp"
             android:layout_width="match_parent"
+            android:hint="@string/placeHolderCrEv"
             android:layout_height="wrap_content"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>

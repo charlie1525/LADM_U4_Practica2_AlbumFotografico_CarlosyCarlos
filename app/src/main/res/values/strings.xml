@@ -25,4 +25,7 @@
     <string name="eventDetailDate">Fecha del evento </string>
     <string name="eventDetailStatus">Status del evento </string>
     <string name="eventDetailUpdate">Actualizar </string>
+    <string name="placeHolderCrEv">Ej. Fiesta de cumple, Boda etc.</string>
+    <string name="mis_eventosSelector">Mis Eventos</string>
+    <string name="keySelectorRemainder">Si cuenta con la clave de un evento, por favor ingrese el numero de evento para ingresar a el</string>
 </resources>
