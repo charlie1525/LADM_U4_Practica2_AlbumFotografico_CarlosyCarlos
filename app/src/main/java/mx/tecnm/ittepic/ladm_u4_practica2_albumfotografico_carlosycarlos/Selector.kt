@@ -25,11 +25,10 @@ class Selector : AppCompatActivity() {
         binding = ActivitySelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val user = FirebaseAuth.getInstance().currentUser!!.email
-
+        val key = generateEventId()
         binding.btnCreateSl.setOnClickListener {
-            createPopUp(generateEventId(),user!!)
+            createPopUp(key,user!!)
         }// fin del boton para la creacion de un evento
-
 
     }
 
