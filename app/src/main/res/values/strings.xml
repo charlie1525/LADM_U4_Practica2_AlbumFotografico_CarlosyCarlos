@@ -36,4 +36,5 @@
     <string name="eventPhotosText">Fotos tomadas en el evento</string>
     <string name="photoListIndications">Seleccione una foto de la lista para visualizarla aquí</string>
     <string name="eventStatus">Estado del evento</string>
+    <string name="copyToClipboard">Compartir evento</string>
 </resources>

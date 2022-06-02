@@ -11,5 +11,8 @@
         android:title="@string/exit"
         android:id="@+id/mnExitM"
         />
+    <item
+        android:title="@string/copyToClipboard"
+        android:id="@+id/mnCompartir"/>
 
 </menu>

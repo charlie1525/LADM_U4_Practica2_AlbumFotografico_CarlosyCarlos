@@ -1,6 +1,8 @@
 package mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos
 
 import android.app.ProgressDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -24,13 +26,14 @@ class Selector : AppCompatActivity() {
     private val arrEventos = ArrayList<String>()
     private val unSoloEvento = ArrayList<String>()
     private val listaID = ArrayList<String>()
+    var key = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val user = FirebaseAuth.getInstance().currentUser!!.email!!
-        val key = generateEventId()
+        key = generateEventId()
 
         fillList(user)
 
@@ -199,6 +202,13 @@ class Selector : AppCompatActivity() {
             }
             R.id.mnExitM -> {
                 exitProcess(0)
+            }
+
+            R.id.mnCompartir ->{
+                val clipBoard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("evento",this.key)
+                clipBoard.setPrimaryClip(clip)
+                mensaje("Id del evento copiado\n${clipBoard.text}")
             }
         }
         return true
