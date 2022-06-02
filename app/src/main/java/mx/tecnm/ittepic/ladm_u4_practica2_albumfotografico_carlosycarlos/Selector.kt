@@ -53,7 +53,7 @@ class Selector : AppCompatActivity() {
                 listaID.clear()
                 for(docs  in it.result){
                     val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
-                    var eventKey = docs.id.toString();
+                    val eventKey = docs.id
                     listaID.add(eventKey)
                     arrEventos.add(evento)
                 }
@@ -71,12 +71,12 @@ class Selector : AppCompatActivity() {
     }
 
     private fun actionsDialog(index: Int) {
-        var idElegido = listaID.get(index)
+        val idElegido = listaID[index]
         AlertDialog.Builder(this).setTitle("ATENCION!").
-        setMessage("¿Que deseas hacer con \n ${arrEventos.get(index)}?")
-            .setPositiveButton("VER DETALLES"){d,i ->openDetail(idElegido) }
-            .setNeutralButton("CANCELAR") {d,i -> }
-            .setNegativeButton("EDITAR") {d,i -> openEdit(idElegido)}
+        setMessage("¿Que deseas hacer con \n ${arrEventos[index]}?")
+            .setPositiveButton("VER DETALLES"){_,_ ->openDetail(idElegido) }
+            .setNeutralButton("CANCELAR") {_,_ -> }
+            .setNegativeButton("EDITAR") {_,_ -> openEdit(idElegido)}
             .show()
     }
 

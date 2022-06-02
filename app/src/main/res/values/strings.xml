@@ -35,4 +35,5 @@
     <string name="suggestedDate">Formato sugerido de fecha: YYYY/MM/DD</string>
     <string name="eventPhotosText">Fotos tomadas en el evento</string>
     <string name="photoListIndications">Seleccione una foto de la lista para visualizarla aquí</string>
+    <string name="eventStatus">Estado del evento</string>
 </resources>

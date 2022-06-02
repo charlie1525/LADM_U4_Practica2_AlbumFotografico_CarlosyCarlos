@@ -71,6 +71,22 @@
         android:textAlignment="center"
         android:textColor="@color/gray"
     />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/eventStatus"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/estadoEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp" />
+    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,6 +94,7 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="20dp"
         android:id="@+id/updateEvent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/regresar"
         android:layout_width="wrap_content"
