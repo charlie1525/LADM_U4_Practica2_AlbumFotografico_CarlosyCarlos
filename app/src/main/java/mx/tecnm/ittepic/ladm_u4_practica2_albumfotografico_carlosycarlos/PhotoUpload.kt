@@ -23,6 +23,7 @@ class PhotoUpload : AppCompatActivity() {
     private lateinit var imagen: Uri
     private var gallerySuccess = 2
     private var intentKey = ""
+    private var eventId: String? = ""
     var refEventos = FirebaseFirestore.getInstance().collection("eventos")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +32,8 @@ class PhotoUpload : AppCompatActivity() {
         setContentView(binding.root)
         title = "Subida de Fotos"
 
-        intentKey =  this.intent.extras!!.getString("id")!!
+        intentKey =  this.intent.extras!!.getString("eventKey")!!
 
-        cargarLista(intentKey)
         // obtener el estado del evento
 
         getEventStatus(object :
@@ -74,7 +74,6 @@ class PhotoUpload : AppCompatActivity() {
                 progressDi.dismiss()
                 mensaje("Imagen subida correctamente")
                 binding.IVimagen.setImageBitmap(null)
-                cargarLista(intentKey)
             }// fin del success
                 .addOnFailureListener {
                     progressDi.dismiss()
@@ -111,18 +110,7 @@ class PhotoUpload : AppCompatActivity() {
        // }
    // }
 
-    private fun cargarLista(key: String) {
-        val storageRef = FirebaseStorage.getInstance().reference.child("eventos/$key")
-        storageRef.listAll().addOnSuccessListener { it ->
-            listaArchivos.clear()
-            it.items.forEach { listaArchivos.add(it.name) }
-            binding.lvLista.adapter =
-                ArrayAdapter(this, android.R.layout.simple_list_item_checked, listaArchivos)
-            binding.lvLista.setOnItemClickListener { _, _, i, _ ->
-                cargarImagen(listaArchivos[i],key)
-            }
-        }// fin del on success listener
-    }
+
 
     private fun cargarImagen(s: String, key: String) {
         val stRef = FirebaseStorage.getInstance().reference.child("eventos/$key/$s")

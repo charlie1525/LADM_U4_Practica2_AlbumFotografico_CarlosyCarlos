@@ -41,11 +41,6 @@ class Selector : AppCompatActivity() {
             createPopUp(key,user)
         }// fin del boton para la creacion de un evento
 
-        binding.btnFotos.setOnClickListener {
-            val uploadPhotos = Intent(this, PhotoUpload::class.java)
-            uploadPhotos.putExtra("id", key)
-            startActivity(uploadPhotos)
-        }
         binding.checkEvent.setOnClickListener {
             var statusEvent= ""
             var eventID = ""
@@ -53,12 +48,12 @@ class Selector : AppCompatActivity() {
                 if(it.isSuccessful){
                     for(docs  in it.result){
                         statusEvent = docs.getString("estado").toString()
-                        eventID = docs.getString("claveEvent").toString()
+                        eventID = docs.id
                         val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
                         unSoloEvento.add(evento)
                     }
                     if(unSoloEvento.size == 1){
-                        if(statusEvent == "Abierto"){
+                        if(statusEvent != "Oculto"){
                             openDetail(eventID);
                             binding.idEvento.text?.clear()
                         }else {
