@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10sp"
-        android:layout_marginBottom="10dp"
+
         android:background="@color/colorCrema"
         android:hint="@string/eventTypePöpUp"
         android:padding="5dp"
@@ -66,8 +66,89 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tipoPopUp"
             android:layout_width="match_parent"
-            android:hint="@string/placeHolderCrEv"
             android:layout_height="wrap_content"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/placeHolderCrEv"
+        android:textColor="@color/gray"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="5dp"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorCrema"
+        android:hint="@string/eventNamePöpUp"
+        android:padding="5dp"
+        app:startIconDrawable="@drawable/ic_baseline_bookmark_border_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nombrePopUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+
+        android:background="@color/colorCrema"
+        android:hint="@string/eventDatePöpUp"
+        android:padding="5dp"
+        app:startIconDrawable="@drawable/ic_baseline_calendar_today_24">
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fechaPopUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Formato sugerido de fecha: YYYY/MM/DD"
+        android:textColor="@color/gray"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+
+        android:background="@color/colorCrema"
+        android:hint="@string/eventDescriptionPöpUp"
+        android:padding="5dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descripcionPopUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:lines="4"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/eventDescriptionAlertPöpUp"
+        android:textColor="@color/gray"
+        />
 </LinearLayout>

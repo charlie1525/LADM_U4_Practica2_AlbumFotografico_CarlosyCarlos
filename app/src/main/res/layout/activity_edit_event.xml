@@ -67,7 +67,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Formato sugerido de fecha: YYYY/MM/DD"
+        android:text="@string/suggestedDate"
         android:textAlignment="center"
         android:textColor="@color/gray"
     />

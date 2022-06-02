@@ -28,4 +28,11 @@
     <string name="placeHolderCrEv">Ej. Fiesta de cumple, Boda etc.</string>
     <string name="mis_eventosSelector">Mis Eventos</string>
     <string name="keySelectorRemainder">Si cuenta con la clave de un evento, por favor ingrese el numero de evento para ingresar a el</string>
+    <string name="eventNamePöpUp">Nombre del evento</string>
+    <string name="eventDatePöpUp">Fecha del evento</string>
+    <string name="eventDescriptionPöpUp">Descripcion</string>
+    <string name="eventDescriptionAlertPöpUp">La descripcion del evento es opcional</string>
+    <string name="suggestedDate">Formato sugerido de fecha: YYYY/MM/DD</string>
+    <string name="eventPhotosText">Fotos tomadas en el evento</string>
+    <string name="photoListIndications">Seleccione una foto de la lista para visualizarla aquí</string>
 </resources>

@@ -10,5 +10,9 @@ class EditEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = "Editar evento"
+
+        binding.regresar.setOnClickListener { finish() }
     }
+
 }

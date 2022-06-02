@@ -21,6 +21,7 @@ class Selector : AppCompatActivity() {
     private lateinit var binding : ActivitySelectorBinding
     private val colRef = FirebaseFirestore.getInstance().collection("eventos")
     private val arrEventos = ArrayList<String>()
+    var listaID = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +42,6 @@ class Selector : AppCompatActivity() {
             startActivity(uploadPhotos)
         }
         binding.checkEvent.setOnClickListener {
-            val editEvent = Intent(this, EditEventActivity::class.java)
-            editEvent.putExtra("event_id", binding.idEvento.text.toString())
-            startActivity(editEvent)
         }
 
     }
@@ -52,16 +50,46 @@ class Selector : AppCompatActivity() {
         colRef.whereEqualTo("correo",user).get().addOnCompleteListener {
             if(it.isSuccessful){
                 arrEventos.clear()
+                listaID.clear()
                 for(docs  in it.result){
                     val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
+                    var eventKey = docs.id.toString();
+                    listaID.add(eventKey)
                     arrEventos.add(evento)
                 }
-                binding.listaEventosPersonal.adapter =
-                    ArrayAdapter(this,android.R.layout.simple_selectable_list_item,arrEventos)
+                showEventList(arrEventos)
+
             } else{ alerta("Error.. \n${it.exception!!.message}") }
         }// fin del onComplete
     }// fin de método
 
+    private fun showEventList(datos: ArrayList<String>) {
+        binding.listaEventosPersonal.adapter = ArrayAdapter<String>(this, androidx.appcompat.R.layout.select_dialog_item_material,datos)
+        binding.listaEventosPersonal.setOnItemClickListener { adapterView, view, index, l ->
+            actionsDialog(index)
+        }
+    }
+
+    private fun actionsDialog(index: Int) {
+        var idElegido = listaID.get(index)
+        AlertDialog.Builder(this).setTitle("ATENCION!").
+        setMessage("¿Que deseas hacer con \n ${arrEventos.get(index)}?")
+            .setPositiveButton("VER DETALLES"){d,i ->openDetail(idElegido) }
+            .setNeutralButton("CANCELAR") {d,i -> }
+            .setNegativeButton("EDITAR") {d,i -> openEdit(idElegido)}
+            .show()
+    }
+
+    private fun openEdit(idElegido: String) {
+        val editEvent = Intent(this, EditEventActivity::class.java)
+        editEvent.putExtra("event_id", idElegido)
+        startActivity(editEvent)
+    }
+    private fun openDetail(idElegido: String) {
+        val eventDetail = Intent(this, EventDetailActivity::class.java)
+        eventDetail.putExtra("event_id", idElegido)
+        startActivity(eventDetail)
+    }
 
     private fun generateEventId(): String {
         val clave = Hasher().createHash()
@@ -77,6 +105,9 @@ class Selector : AppCompatActivity() {
         val lbClave = createPopUp.findViewById<TextView>(R.id.lbClave)
         val lbCorreo = createPopUp.findViewById<TextView>(R.id.lbCorreo)
         val txtTipo = createPopUp.findViewById<TextInputEditText>(R.id.tipoPopUp)
+        val txtNombre = createPopUp.findViewById<TextInputEditText>(R.id.nombrePopUp)
+        val txtFecha = createPopUp.findViewById<TextInputEditText>(R.id.fechaPopUp)
+        val txtDescripcion = createPopUp.findViewById<TextInputEditText>(R.id.descripcionPopUp)
         val progDialog = ProgressDialog(this)
         progDialog.setMessage("Creando el evento")
         progDialog.show()
@@ -91,11 +122,21 @@ class Selector : AppCompatActivity() {
                 if(txtTipo.text!!.isBlank() || txtTipo.text!!.isEmpty()){
                     alerta("No se pudo crear el evento\nHace falta el tipo de evento")
                     return@setPositiveButton
-                } else{
+                } else if(txtNombre.text!!.isBlank() || txtNombre.text!!.isEmpty()) {
+                    alerta("No se pudo crear el evento\nHace falta el nombre del evento")
+                    return@setPositiveButton
+                } else if(txtFecha.text!!.isBlank() || txtFecha.text!!.isEmpty()) {
+                    alerta("No se pudo crear el evento\nHace falta la fecha del evento")
+                    return@setPositiveButton
+                }
+                else{
                     val data = hashMapOf(
                         "claveEvent" to lbClave.text.toString(),
                         "correo" to lbCorreo.text.toString(),
+                        "descripcion" to txtDescripcion.text.toString(),
                         "estado" to "abierto",
+                        "fecha" to txtFecha.text.toString(),
+                        "nombre" to txtNombre.text.toString(),
                         "tipo" to txtTipo.text.toString()
                     )
                     remoteFS.add(data).addOnSuccessListener {
