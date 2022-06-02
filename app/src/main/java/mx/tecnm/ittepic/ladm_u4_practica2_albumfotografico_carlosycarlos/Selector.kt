@@ -2,7 +2,6 @@ package mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,11 +17,13 @@ import mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos.databin
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
+
 class Selector : AppCompatActivity() {
     private lateinit var binding : ActivitySelectorBinding
     private val colRef = FirebaseFirestore.getInstance().collection("eventos")
     private val arrEventos = ArrayList<String>()
-    var listaID = ArrayList<String>()
+    private val unSoloEvento = ArrayList<String>()
+    private val listaID = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,29 @@ class Selector : AppCompatActivity() {
             startActivity(uploadPhotos)
         }
         binding.checkEvent.setOnClickListener {
+            var statusEvent= ""
+            var eventID = ""
+            colRef.whereEqualTo("claveEvent",binding.idEvento.text.toString()).get().addOnCompleteListener {
+                if(it.isSuccessful){
+                    for(docs  in it.result){
+                        statusEvent = docs.getString("estado").toString()
+                        eventID = docs.getString("claveEvent").toString()
+                        val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
+                        unSoloEvento.add(evento)
+                    }
+                    if(unSoloEvento.size == 1){
+                        if(statusEvent == "Abierto"){
+                            openDetail(eventID);
+                            binding.idEvento.text?.clear()
+                        }else {
+                            alerta("Lo sentimos, el evento ya no se encuentra disponible")
+                        }
+                    }else {
+                        alerta("No se encontro ningun evento con esa clave")
+                    }
+                } else{ alerta("Error.. \n${it.exception!!.message}") }
+            }// fin del onComplete
+
         }
 
     }
@@ -134,7 +159,7 @@ class Selector : AppCompatActivity() {
                         "claveEvent" to lbClave.text.toString(),
                         "correo" to lbCorreo.text.toString(),
                         "descripcion" to txtDescripcion.text.toString(),
-                        "estado" to "abierto",
+                        "estado" to "Abierto",
                         "fecha" to txtFecha.text.toString(),
                         "nombre" to txtNombre.text.toString(),
                         "tipo" to txtTipo.text.toString()
