@@ -38,4 +38,9 @@
     <string name="eventStatus">Estado del evento</string>
     <string name="copyToClipboard">Compartir evento</string>
     <string name="indicationsMessage">Al momento de seleccionar su evento, podra compartir la clave del evento desde el menu de arriba</string>
+    <string-array name="estadosEvento">
+        <item>Abierto</item>
+        <item>Cerrado</item>
+        <item>Oculto</item>
+    </string-array>
 </resources>

@@ -1,9 +1,11 @@
 package mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos.databinding.ActivityEditEventBinding
 
@@ -19,6 +21,16 @@ class EditEventActivity : AppCompatActivity() {
         title = "Editar evento"
         eventId = this.intent.extras!!.getString("event_id")
         getEventData(eventId!!)
+
+        val spinner: Spinner = binding.spStatus
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.estadosEvento,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
 
         binding.regresar.setOnClickListener { finish() }
         binding.updateEvent.setOnClickListener {
@@ -85,7 +97,14 @@ class EditEventActivity : AppCompatActivity() {
                 binding.nombreEvento.setText(nombre)
                 binding.tipoEvento.setText(tipo)
                 binding.fechaEvento.setText(fecha)
-                binding.estadoEvento.setText(estado)
+
+                if(estado == "Abierto"){
+                    binding.spStatus.setSelection(0)
+                }else if(estado == "Cerrado"){
+                    binding.spStatus.setSelection(1)
+                } else{
+                    binding.spStatus.setSelection(2)
+                }
 
             } else {
                 alerta("No existe ese documento")
