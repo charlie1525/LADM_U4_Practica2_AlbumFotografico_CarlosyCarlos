@@ -47,7 +47,7 @@ class EditEventActivity : AppCompatActivity() {
                             .update("fecha", binding.fechaEvento.text.toString())
                             .addOnFailureListener { alerta("Error\n${it.message}") }
                         refEvents.document(eventId!!)
-                            .update("estado", binding.estadoEvento.text.toString())
+                            .update("estado", binding.spStatus.selectedItem.toString())
                             .addOnSuccessListener { cleanTexts() }
                             .addOnFailureListener { alerta("Error\n${it.message}") }
                     } else {
@@ -66,20 +66,17 @@ class EditEventActivity : AppCompatActivity() {
         binding.nombreEvento.text!!.clear()
         binding.tipoEvento.text!!.clear()
         binding.fechaEvento.text!!.clear()
-        binding.estadoEvento.text!!.clear()
     }
 
     private fun blankText(): Boolean {
         if (binding.nombreEvento.text!!.isEmpty() || binding.nombreEvento.text!!.isEmpty() ||
             binding.tipoEvento.text!!.isEmpty() || binding.tipoEvento.text!!.isEmpty() ||
-            binding.fechaEvento.text!!.isEmpty() || binding.fechaEvento.text!!.isEmpty() ||
-            binding.estadoEvento.text!!.isEmpty() || binding.estadoEvento.text!!.isEmpty()
+            binding.fechaEvento.text!!.isEmpty() || binding.fechaEvento.text!!.isEmpty()
         ) {
             return false
         } else if (binding.nombreEvento.text!!.isBlank() || binding.nombreEvento.text!!.isBlank() ||
             binding.tipoEvento.text!!.isBlank() || binding.tipoEvento.text!!.isBlank() ||
-            binding.fechaEvento.text!!.isBlank() || binding.fechaEvento.text!!.isBlank() ||
-            binding.estadoEvento.text!!.isBlank() || binding.estadoEvento.text!!.isBlank()
+            binding.fechaEvento.text!!.isBlank() || binding.fechaEvento.text!!.isBlank()
         ) {
             return false
         }
