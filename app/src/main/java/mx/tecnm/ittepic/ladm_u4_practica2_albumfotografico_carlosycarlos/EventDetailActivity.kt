@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos.databinding.ActivityEventDetailBinding
@@ -26,6 +27,8 @@ class EventDetailActivity : AppCompatActivity() {
     private var estadoEvento= ""
     private var keyEvento= ""
     private val listaArchivos = ArrayList<String>()
+    private var eventOwner = ""
+    private val currentEmail = FirebaseAuth.getInstance().currentUser!!.email
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +55,9 @@ class EventDetailActivity : AppCompatActivity() {
             if (it.exists()) {
 
                 nombreEvento = it.getString("nombre").toString()
+                eventOwner = it.getString("correo").toString()
                 fechaEvento = it.getString("fecha").toString()
-                descripcionEvento = it.getString("fecha").toString()
+                descripcionEvento = it.getString("descripcion").toString()
                 estadoEvento = it.getString("estado").toString()
                 keyEvento = it.getString("claveEvent").toString()
 
@@ -68,6 +72,7 @@ class EventDetailActivity : AppCompatActivity() {
                 }else{
                     binding.btnFotos.visibility = View.VISIBLE
                 }
+                if(!currentEmail.equals(eventOwner)){ binding.btnCompartirEvento.visibility = View.GONE }
 
 
             } else {
@@ -82,13 +87,18 @@ class EventDetailActivity : AppCompatActivity() {
         storageRef.listAll().addOnSuccessListener { it ->
             listaArchivos.clear()
             it.items.forEach { listaArchivos.add(it.name) }
-            binding.lvLista.adapter =
-                ArrayAdapter(this, R.layout.simple_list_item_checked, listaArchivos)
-            binding.lvLista.setOnItemClickListener { _, _, i, _ ->
-                cargarImagen(listaArchivos[i],key)
-            }
+            fillPhotoList(key)
         }// fin del on success listener
     }
+
+    private fun fillPhotoList(key:String) {
+        binding.lvLista.adapter =
+            ArrayAdapter(this, R.layout.simple_list_item_checked, listaArchivos)
+        binding.lvLista.setOnItemClickListener { _, _, i, _ ->
+            cargarImagen(listaArchivos[i],key)
+        }
+    }
+
     private fun cargarImagen(s: String, key: String) {
         val stRef = FirebaseStorage.getInstance().reference.child("eventos/$key/$s")
         val tempFile = File.createTempFile("tempImage", "jpg")
@@ -110,5 +120,4 @@ class EventDetailActivity : AppCompatActivity() {
     private fun mensaje(cadena:String){
         Toast.makeText(this, cadena, Toast.LENGTH_SHORT).show()
     }
-
 }

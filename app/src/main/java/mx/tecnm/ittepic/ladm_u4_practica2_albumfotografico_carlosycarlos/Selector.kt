@@ -27,13 +27,12 @@ class Selector : AppCompatActivity() {
     private val unSoloEvento = ArrayList<String>()
     private val listaID = ArrayList<String>()
     var key = ""
+    private val user = FirebaseAuth.getInstance().currentUser!!.email!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val user = FirebaseAuth.getInstance().currentUser!!.email!!
-
         fillList(user)
 
         binding.btnCreateSl.setOnClickListener {
@@ -187,6 +186,7 @@ class Selector : AppCompatActivity() {
                         txtTipo.text!!.clear()
                         progDialog.dismiss()
                         mensaje("Evento creado con exito")
+                        fillList(user)
                     }.addOnFailureListener{
                         progDialog.dismiss()
                         alerta("No se pudo crear el evento \n${it.message}")
@@ -218,10 +218,6 @@ class Selector : AppCompatActivity() {
             }
             R.id.mnExitM -> {
                 exitProcess(0)
-            }
-
-            R.id.mnCompartir ->{
-                copyToClipboardEventId(this.key)
             }
         }
         return true

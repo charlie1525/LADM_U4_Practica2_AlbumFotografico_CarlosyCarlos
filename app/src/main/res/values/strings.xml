@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">LADM_U4_Practica2_AlbumFotografico_CarlosyCarlos</string>
-    <string name="appName2">Party Photos</string>
+    <string name="appName2">Album Photos Sharing</string>
     <string name="aboutU">Acerca de Nosotros</string>
     <string name="exit">Salir</string>
     <string name="sessionOut">Cerrar Sesión</string>
@@ -37,7 +37,10 @@
     <string name="photoListIndications">Seleccione una foto de la lista para visualizarla aquí</string>
     <string name="eventStatus">Estado del evento</string>
     <string name="copyToClipboard">Compartir evento</string>
-    <string name="indicationsMessage">Al momento de seleccionar su evento, podra compartir la clave del evento desde el menu de arriba</string>
+    <string name="indicationsMessage">
+        Al momento de seleccionar el evento, la clave del evento seleccionado se copiara automaticamente al portapapeles
+    </string>
+    <string name="updateEventList">Actualizar lista de eventos</string>
     <string-array name="estadosEvento">
         <item>Abierto</item>
         <item>Cerrado</item>

@@ -56,6 +56,7 @@ class EditEventActivity : AppCompatActivity() {
                 }//Fin del OnSuccess
                     .addOnFailureListener { alerta("Error\n${it.message}") }
                 mensaje("Evento actualizado")
+                finish()
             } else {
                 alerta("No debe tener espacios en blanco o estar vacio ningún campo")
             }
