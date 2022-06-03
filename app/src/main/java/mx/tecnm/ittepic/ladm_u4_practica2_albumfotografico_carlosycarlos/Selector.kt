@@ -33,23 +33,27 @@ class Selector : AppCompatActivity() {
         binding = ActivitySelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val user = FirebaseAuth.getInstance().currentUser!!.email!!
-        key = generateEventId()
 
         fillList(user)
 
         binding.btnCreateSl.setOnClickListener {
+            key = generateEventId()
             createPopUp(key,user)
         }// fin del boton para la creacion de un evento
 
         binding.checkEvent.setOnClickListener {
             var statusEvent= ""
             var eventID = ""
+            var iD = ""
             colRef.whereEqualTo("claveEvent",binding.idEvento.text.toString()).get().addOnCompleteListener {
                 if(it.isSuccessful){
                     for(docs  in it.result){
                         statusEvent = docs.getString("estado").toString()
                         eventID = docs.id
-                        val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
+                        iD = docs.getString("claveEvent").toString()
+                        val evento = "Clave del evento: $iD\n" +
+                                "Evento: ${docs.getString("tipo")}\n" +
+                                "Estado: ${docs.getString("estado")}"
                         unSoloEvento.add(evento)
                     }
                     if(unSoloEvento.size == 1){
@@ -67,7 +71,7 @@ class Selector : AppCompatActivity() {
 
         }
 
-    }
+    }// fin del onCreate
 
     private fun fillList(user: String){
         colRef.whereEqualTo("correo",user).get().addOnCompleteListener {
@@ -75,7 +79,9 @@ class Selector : AppCompatActivity() {
                 arrEventos.clear()
                 listaID.clear()
                 for(docs  in it.result){
-                    val evento = "Evento: ${docs.getString("tipo")}\nEstado: ${docs.getString("estado")}"
+                    val evento = "Clave del evento: ${docs.getString("claveEvent")}\n" +
+                            "Evento: ${docs.getString("tipo")}\n" +
+                            "Estado: ${docs.getString("estado")}"
                     val eventKey = docs.id
                     listaID.add(eventKey)
                     arrEventos.add(evento)
@@ -87,7 +93,7 @@ class Selector : AppCompatActivity() {
     }// fin de método
 
     private fun showEventList(datos: ArrayList<String>) {
-        binding.listaEventosPersonal.adapter = ArrayAdapter<String>(this, androidx.appcompat.R.layout.select_dialog_item_material,datos)
+        binding.listaEventosPersonal.adapter = ArrayAdapter(this, androidx.appcompat.R.layout.select_dialog_item_material,datos)
         binding.listaEventosPersonal.setOnItemClickListener { adapterView, view, index, l ->
             actionsDialog(index)
         }
@@ -95,6 +101,7 @@ class Selector : AppCompatActivity() {
 
     private fun actionsDialog(index: Int) {
         val idElegido = listaID[index]
+        getCurrentId(idElegido)
         AlertDialog.Builder(this).setTitle("ATENCION!").
         setMessage("¿Que deseas hacer con \n ${arrEventos[index]}?")
             .setPositiveButton("VER DETALLES"){_,_ ->openDetail(idElegido) }
@@ -103,11 +110,25 @@ class Selector : AppCompatActivity() {
             .show()
     }
 
+    private fun getCurrentId(docId: String){
+        colRef.document(docId).get().addOnSuccessListener {
+            if (it.exists()){
+                val clave = it.getString("claveEvent")!!
+                copyToClipboardEventId(clave)
+            } else{
+                alerta("no existe el evento")
+            }
+        }.addOnFailureListener {
+            alerta("Error... \n${it.message}")
+        }
+    }// fin del método de copia del id
+
     private fun openEdit(idElegido: String) {
         val editEvent = Intent(this, EditEventActivity::class.java)
         editEvent.putExtra("event_id", idElegido)
         startActivity(editEvent)
     }
+
     private fun openDetail(idElegido: String) {
         val eventDetail = Intent(this, EventDetailActivity::class.java)
         eventDetail.putExtra("event_id", idElegido)
@@ -200,13 +221,17 @@ class Selector : AppCompatActivity() {
             }
 
             R.id.mnCompartir ->{
-                val clipBoard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("evento",this.key)
-                clipBoard.setPrimaryClip(clip)
-                mensaje("Id del evento copiado\n${clipBoard.text}")
+                copyToClipboardEventId(this.key)
             }
         }
         return true
+    }
+
+    private fun copyToClipboardEventId(key: String) {
+        val clipBoard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("evento",key)
+        clipBoard.setPrimaryClip(clip)
+        mensaje("Id del evento copiado\n${clipBoard.text}")
     }
 
     private fun alerta(cadena:String){

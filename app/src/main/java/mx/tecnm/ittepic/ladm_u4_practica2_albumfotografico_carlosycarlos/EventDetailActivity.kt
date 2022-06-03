@@ -23,6 +23,7 @@ class EventDetailActivity : AppCompatActivity() {
     private var estadoEvento= ""
     private var keyEvento= ""
     private val listaArchivos = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityEventDetailBinding.inflate(layoutInflater)
@@ -30,7 +31,9 @@ class EventDetailActivity : AppCompatActivity() {
         title = "Detalles del evento"
         eventId = this.intent.extras!!.getString("event_id")
         getEventData(eventId!!)
+
         binding.goToBack.setOnClickListener { finish() }
+
         binding.btnFotos.setOnClickListener {
             val uploadPhotos = Intent(this, PhotoUpload::class.java)
             uploadPhotos.putExtra("id", eventId)
