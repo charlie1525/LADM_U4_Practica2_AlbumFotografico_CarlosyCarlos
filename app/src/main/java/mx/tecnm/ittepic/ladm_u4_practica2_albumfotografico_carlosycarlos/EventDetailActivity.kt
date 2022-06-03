@@ -1,12 +1,15 @@
 package mx.tecnm.ittepic.ladm_u4_practica2_albumfotografico_carlosycarlos
 
 import android.R
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -39,6 +42,9 @@ class EventDetailActivity : AppCompatActivity() {
             uploadPhotos.putExtra("id", eventId)
             uploadPhotos.putExtra("eventKey", keyEvento)
             startActivity(uploadPhotos)
+        }
+        binding.btnCompartirEvento.setOnClickListener {
+            copyToClipboardEventId(keyEvento)
         }
     }
     private fun getEventData(eventId: String) {
@@ -95,4 +101,14 @@ class EventDetailActivity : AppCompatActivity() {
         AlertDialog.Builder(this).setTitle("Atencion!!")
             .setMessage(cadena).show()
     }
+    private fun copyToClipboardEventId(key: String) {
+        val clipBoard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("evento",key)
+        clipBoard.setPrimaryClip(clip)
+        mensaje("Id del evento copiado\n${clipBoard.text}")
+    }
+    private fun mensaje(cadena:String){
+        Toast.makeText(this, cadena, Toast.LENGTH_SHORT).show()
+    }
+
 }

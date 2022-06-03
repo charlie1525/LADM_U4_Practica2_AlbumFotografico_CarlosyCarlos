@@ -97,6 +97,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/IVimagen" />
+
                 <LinearLayout
                     android:id="@+id/linearLayout3"
                     android:layout_width="match_parent"
@@ -122,6 +123,13 @@
                                 android:layout_marginVertical="20dp"
                                 android:id="@+id/btnFotos"/>
                 </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Compartir la clave de mi evento"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="20dp"
+                android:id="@+id/btnCompartirEvento"/>
         </LinearLayout>
 
     </ScrollView>
